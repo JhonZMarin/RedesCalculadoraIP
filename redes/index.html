@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Calculadora de Subredes (IP / FLSM / VLSM)</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app">
+    <header>
+      <h1>Calculadora de Subredes IPv4</h1>
+      <p class="muted">IP info · FLSM · VLSM — con explicación paso a paso y exportación</p>
+    </header>
+
+    <nav class="tabs">
+      <button class="tab-btn active" data-target="ip">Calculadora IP</button>
+      <button class="tab-btn" data-target="flsm">FLSM</button>
+      <button class="tab-btn" data-target="vlsm">VLSM</button>
+    </nav>
+
+    <main>
+      <!-- IP -->
+      <section id="seccion-ip" class="panel">
+        <h2>Calculadora IP</h2>
+        <div class="grid">
+          <div class="col">
+            <label>Dirección IPv4 (opcional /prefijo)</label>
+            <input id="ipInput" placeholder="Ej: 178.89.8.0 o 178.89.8.0/16">
+            <label>Prefijo detectado / manual</label>
+            <input id="prefixInput" placeholder="ej: 16 (se auto-detecta si se deja vacío)">
+            <div class="controls">
+              <button id="calcIpBtn">Calcular</button>
+              <button class="ghost" id="explainIpBtn">Ver explicación</button>
+              <button class="ghost" id="resetIpBtn">Otro cálculo</button>
+            </div>
+          </div>
+          <div class="col">
+            <div id="ipResult" class="result-area" aria-live="polite"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FLSM -->
+      <section id="seccion-flsm" class="panel hidden">
+        <h2>FLSM (Máscara fija)</h2>
+        <div class="grid">
+          <div class="col">
+            <label>Red base (IPv4)</label>
+            <input id="flsmIp" placeholder="Ej: 178.89.0.0">
+            <label>Prefijo de la red</label>
+            <input id="flsmPrefix" placeholder="Ej: 16 (se auto-detecta si se deja vacío)">
+            <label>Nº subredes</label>
+            <input id="flsmSubnets" type="number" min="1" placeholder="Ej: 4">
+            <label>Hosts por subred (requeridos)</label>
+            <input id="flsmHosts" type="number" min="1" placeholder="Ej: 50">
+            <div class="controls">
+              <button id="calcFlsmBtn">Calcular FLSM</button>
+              <button class="ghost" id="flsmLog1">Explicación 1</button>
+              <button class="ghost" id="flsmLog2">Explicación 2</button>
+              <button class="ghost" id="flsmLog3">Explicación 3</button>
+            </div>
+            <div class="controls" style="margin-top:8px">
+              <button class="ghost" id="resetFlsm">Otro cálculo</button>
+              <button id="downloadFlsm">Descargar CSV</button>
+            </div>
+          </div>
+          <div class="col">
+            <div id="flsmResult" class="result-area"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- VLSM -->
+      <section id="seccion-vlsm" class="panel hidden">
+        <h2>VLSM (Máscara variable)</h2>
+        <div class="grid">
+          <div class="col">
+            <label>Red base (IPv4)</label>
+            <input id="vlsmIp" placeholder="Ej: 192.168.0.0">
+            <label>Prefijo de la red</label>
+            <input id="vlsmPrefix" placeholder="Ej: 16 (se auto-detecta si se deja vacío)">
+            <label>Nº subredes</label>
+            <input id="vlsmCount" type="number" min="1" placeholder="Ej: 3">
+            <div style="margin-top:8px">
+              <button id="genVlsmFields">Generar campos para hosts</button>
+            </div>
+            <div id="vlsmHostsContainer" class="hosts-container"></div>
+
+            <div class="controls" style="margin-top:8px">
+              <button id="calcVlsmBtn">Calcular VLSM</button>
+              <button class="ghost" id="vlsmLog1">Explicación 1</button>
+              <button class="ghost" id="vlsmLog2">Explicación 2</button>
+              <button class="ghost" id="vlsmLog3">Explicación 3</button>
+            </div>
+
+            <div class="controls" style="margin-top:8px">
+              <button class="ghost" id="resetVlsm">Otro cálculo</button>
+              <button id="downloadVlsm">Descargar CSV</button>
+            </div>
+          </div>
+          <div class="col">
+            <div id="vlsmResult" class="result-area"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="muted small">Recomendación: usar Live Server en VSCode para ver cambios en caliente</footer>
+  </div>
+
+  <!-- Modal de explicación -->
+  <!--<div id="logModal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="logTitle">Explicación</h3>
+        <button id="closeLog" class="close">&times;</button>
+      </div>
+      <pre id="logText" class="log-text"></pre>
+    </div>
+  </div>-->
+
+  <script src="script.js"></script>
+</body>
+</html>
