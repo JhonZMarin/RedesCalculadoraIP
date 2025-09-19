@@ -164,7 +164,7 @@ button.small { padding: 8px 10px; font-size:14px; }
 }
 .result-area tbody td{
   background: var(--panel-dark, #2a3f44);
-  color: #dbe9e7;
+  color: #39e0c7;
   padding: 12px 10px;
   border-bottom: 1px solid rgba(255,255,255,0.02);
 }
@@ -180,15 +180,17 @@ button.small { padding: 8px 10px; font-size:14px; }
 .small-bin { font-family: "Courier New", monospace; font-size:12px; color:rgba(255,255,255,0.9); }
 
 
-.explicacion{
-  margin-top:12px;
-  padding:14px;
-  border-radius:8px;
-  background: linear-gradient(180deg, rgba(47,138,63,0.06), rgba(31,166,160,0.03));
-  border-left:6px solid var(--accent-green);
-  color: #083233;
-  font-size:15px;
-  line-height:1.5;
+.explicacion {
+  margin-top: 15px;
+  padding: 15px;
+  background-color: #111827 !important; /* Fondo oscuro sólido */
+  border-left: 5px solid #16a34a;       /* Verde acento */
+  border-radius: 8px;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #ffffff !important;            /* Texto blanco puro */
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
 }
 
 /* Hosts container (VLSM) */
