@@ -3,122 +3,90 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Calculadora de Subredes (IP / FLSM / VLSM)</title>
+  <title>Calculadora de Subredes</title>
   <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Asegura que la clase oculto funcione aunque tu CSS no la tenga */
+    .oculto { display: none !important; }
+    .seccion { margin: 14px 0; padding: 12px; border-radius:6px; background: rgba(255,255,255,0.02); }
+    .controls { margin-top:8px; gap:8px; display:flex; flex-wrap:wrap; }
+    .explicacion { margin-top:10px; padding:10px; background: rgba(0,128,255,0.06); border-left:4px solid #0078d7; border-radius:6px; color:#ddd;}
+    input { width:100%; padding:8px; margin:6px 0; border-radius:6px; background:rgba(255,255,255,0.02); color:inherit; border:1px solid rgba(255,255,255,0.04); }
+    button { padding:8px 10px; border-radius:6px; cursor:pointer; background:#eee; color:#041014; border:none; }
+  </style>
 </head>
 <body>
-  <div class="app">
-    <header>
-      <h1>Calculadora de Subredes IPv4</h1>
-      <p class="muted">IP info · FLSM · VLSM — con explicación paso a paso y exportación</p>
-    </header>
+  <header>
+    <h1>Calculadora de Subredes</h1>
+    <p>Selecciona una calculadora para comenzar</p>
+  </header>
 
-    <nav class="tabs">
-      <button class="tab-btn active" data-target="ip">Calculadora IP</button>
-      <button class="tab-btn" data-target="flsm">FLSM</button>
-      <button class="tab-btn" data-target="vlsm">VLSM</button>
-    </nav>
+  <!-- Navegación -->
+  <nav style="display:flex; gap:8px; margin-bottom:12px;">
+    <button class="nav-btn" data-target="ip">Calculadora IP</button>
+    <button class="nav-btn" data-target="flsm">FLSM</button>
+    <button class="nav-btn" data-target="vlsm">VLSM</button>
+  </nav>
 
-    <main>
-      <!-- IP -->
-      <section id="seccion-ip" class="panel">
-        <h2>Calculadora IP</h2>
-        <div class="grid">
-          <div class="col">
-            <label>Dirección IPv4 (opcional /prefijo)</label>
-            <input id="ipInput" placeholder="Ej: 178.89.8.0 o 178.89.8.0/16">
-            <label>Prefijo detectado / manual</label>
-            <input id="prefixInput" placeholder="ej: 16 (se auto-detecta si se deja vacío)">
-            <div class="controls">
-              <button id="calcIpBtn">Calcular</button>
-              <button class="ghost" id="explainIpBtn">Ver explicación</button>
-              <button class="ghost" id="resetIpBtn">Otro cálculo</button>
-            </div>
-          </div>
-          <div class="col">
-            <div id="ipResult" class="result-area" aria-live="polite"></div>
-          </div>
-        </div>
-      </section>
+  <!-- Bienvenida (inicial visible) -->
+  <section id="bienvenida" class="seccion">
+    <h2>Bienvenido</h2>
+    <p>Elige "Calculadora IP", "FLSM" o "VLSM" arriba para empezar.</p>
+  </section>
 
-      <!-- FLSM -->
-      <section id="seccion-flsm" class="panel hidden">
-        <h2>FLSM (Máscara fija)</h2>
-        <div class="grid">
-          <div class="col">
-            <label>Red base (IPv4)</label>
-            <input id="flsmIp" placeholder="Ej: 178.89.0.0">
-            <label>Prefijo de la red</label>
-            <input id="flsmPrefix" placeholder="Ej: 16 (se auto-detecta si se deja vacío)">
-            <label>Nº subredes</label>
-            <input id="flsmSubnets" type="number" min="1" placeholder="Ej: 4">
-            <label>Hosts por subred (requeridos)</label>
-            <input id="flsmHosts" type="number" min="1" placeholder="Ej: 50">
-            <div class="controls">
-              <button id="calcFlsmBtn">Calcular FLSM</button>
-              <button class="ghost" id="flsmLog1">Explicación 1</button>
-              <button class="ghost" id="flsmLog2">Explicación 2</button>
-              <button class="ghost" id="flsmLog3">Explicación 3</button>
-            </div>
-            <div class="controls" style="margin-top:8px">
-              <button class="ghost" id="resetFlsm">Otro cálculo</button>
-              <button id="downloadFlsm">Descargar CSV</button>
-            </div>
-          </div>
-          <div class="col">
-            <div id="flsmResult" class="result-area"></div>
-          </div>
-        </div>
-      </section>
-
-      <!-- VLSM -->
-      <section id="seccion-vlsm" class="panel hidden">
-        <h2>VLSM (Máscara variable)</h2>
-        <div class="grid">
-          <div class="col">
-            <label>Red base (IPv4)</label>
-            <input id="vlsmIp" placeholder="Ej: 192.168.0.0">
-            <label>Prefijo de la red</label>
-            <input id="vlsmPrefix" placeholder="Ej: 16 (se auto-detecta si se deja vacío)">
-            <label>Nº subredes</label>
-            <input id="vlsmCount" type="number" min="1" placeholder="Ej: 3">
-            <div style="margin-top:8px">
-              <button id="genVlsmFields">Generar campos para hosts</button>
-            </div>
-            <div id="vlsmHostsContainer" class="hosts-container"></div>
-
-            <div class="controls" style="margin-top:8px">
-              <button id="calcVlsmBtn">Calcular VLSM</button>
-              <button class="ghost" id="vlsmLog1">Explicación 1</button>
-              <button class="ghost" id="vlsmLog2">Explicación 2</button>
-              <button class="ghost" id="vlsmLog3">Explicación 3</button>
-            </div>
-
-            <div class="controls" style="margin-top:8px">
-              <button class="ghost" id="resetVlsm">Otro cálculo</button>
-              <button id="downloadVlsm">Descargar CSV</button>
-            </div>
-          </div>
-          <div class="col">
-            <div id="vlsmResult" class="result-area"></div>
-          </div>
-        </div>
-      </section>
-    </main>
-
-    <footer class="muted small">Recomendación: usar Live Server en VSCode para ver cambios en caliente</footer>
-  </div>
-
-  <!-- Modal de explicación -->
-  <!--<div id="logModal" class="modal hidden" role="dialog" aria-modal="true">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3 id="logTitle">Explicación</h3>
-        <button id="closeLog" class="close">&times;</button>
-      </div>
-      <pre id="logText" class="log-text"></pre>
+  <!-- IP (inicial oculto) -->
+  <section id="seccion-ip" class="seccion oculto">
+    <h2>Calculadora IP</h2>
+    <input id="ipInput" placeholder="Ej: 192.168.1.10 o 192.168.1.10/24">
+    <label>Prefijo detectado / manual</label>
+    <input id="prefixInput" readonly placeholder="Se detecta automáticamente">
+    <div class="controls">
+      <button id="calcIpBtn">Calcular</button>
+      <button id="explainIpBtn">Ver explicación</button>
+      <button id="resetIpBtn">Calcular otra IP</button>
     </div>
-  </div>-->
+    <div id="resultadoIP" class="result-area"></div>
+    <div id="explicacionIP" class="explicacion"></div>
+  </section>
+
+  <!-- FLSM -->
+  <section id="seccion-flsm" class="seccion oculto">
+    <h2>Calculadora FLSM</h2>
+    <input id="redFLSM" placeholder="Red base (ej: 178.89.0.0)">
+    <label>Prefijo detectado / manual</label>
+    <input id="prefijoFLSM" placeholder="Se detecta automáticamente">
+    <input id="numSubredesFLSM" type="number" min="1" placeholder="Número de subredes">
+    <input id="hostsFLSM" type="number" min="1" placeholder="Hosts por subred (requerido)">
+    <div class="controls">
+      <button id="calcFlsmBtn">Calcular FLSM</button>
+      <button id="explainFlsmBtn">Ver explicación</button>
+      <button id="resetFlsmBtn">Calcular otra red</button>
+      <button id="downloadFlsmBtn">Descargar CSV</button>
+    </div>
+    <div id="resultadoFLSM" class="result-area"></div>
+    <div id="explicacionFLSM" class="explicacion"></div>
+  </section>
+
+  <!-- VLSM -->
+  <section id="seccion-vlsm" class="seccion oculto">
+    <h2>Calculadora VLSM</h2>
+    <input id="redVLSM" placeholder="Red base (ej: 192.168.0.0)">
+    <label>Prefijo detectado / manual</label>
+    <input id="prefijoVLSM" placeholder="Se detecta automáticamente">
+    <input id="numSubredesVLSM" type="number" min="1" placeholder="Número de subredes">
+    <div style="margin-top:8px;">
+      <button id="genVlsmBtn">Generar campos para hosts</button>
+    </div>
+    <div id="camposVLSM"></div>
+    <div class="controls">
+      <button id="calcVlsmBtn">Calcular VLSM</button>
+      <button id="explainVlsmBtn">Ver explicación</button>
+      <button id="resetVlsmBtn">Calcular otra red</button>
+      <button id="downloadVlsmBtn">Descargar CSV</button>
+    </div>
+    <div id="resultadoVLSM" class="result-area"></div>
+    <div id="explicacionVLSM" class="explicacion"></div>
+  </section>
 
   <script src="script.js"></script>
 </body>
